@@ -1,5 +1,8 @@
 package subway.controller;
 
+import jdk.nashorn.internal.ir.Terminal;
+import subway.domain.EndTerminal;
+import subway.domain.Line;
 import subway.domain.LineRepository;
 import subway.domain.Station;
 import subway.domain.StationRepository;
@@ -47,7 +50,7 @@ public class SubwayController {
 		OutputView.showLineFunctionList();
 		String selectLineOption = InputView.selectWantedFunction();
 		if (selectLineOption.equals("1")) {
-			saveSubway();
+			saveLine();
 			return;
 		}
 		if (selectLineOption.equals("2")) {
@@ -88,4 +91,20 @@ public class SubwayController {
 		OutputView.showStationList(StationRepository.castingStationsToString());
 	}
 
+	public void saveLine() {
+		try {
+			int beforeInputSize = LineRepository.getLineListSize();
+			Line inputLine = new Line(InputView.inputLineToSave());
+			inputLine.saveEndTerminal(
+				new EndTerminal(InputView.inputLineUpTerminalToSave(), InputView.inputLineDownTerminalToSave()));
+			LineRepository.addLine(inputLine);
+			int afterInputSize = LineRepository.getLineListSize();
+			if (beforeInputSize < afterInputSize) {
+				OutputView.showLineSaveComplete();
+			}
+		} catch (IllegalArgumentException exception) {
+			System.out.println(exception.getMessage());
+			saveLine();
+		}
+	}
 }
