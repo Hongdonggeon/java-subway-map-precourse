@@ -10,9 +10,9 @@ import subway.view.OutputView;
 
 public class SubwayController {
 	public void play() {
-		OutputView.showMainFunctionList();
-		String mainOption = InputView.selectWantedFunction();
 		while (true) {
+			OutputView.showMainFunctionList();
+			String mainOption = InputView.selectWantedFunction();
 			if (mainOption.equals("1")) {
 				playStationFunction();
 			}
@@ -30,18 +30,14 @@ public class SubwayController {
 		String selectStationOption = InputView.selectWantedFunction();
 		if (selectStationOption.equals("1")) {
 			saveSubway();
-			return;
 		}
-		if (selectStationOption.equals("2")) {
+		else if (selectStationOption.equals("2")) {
 			deleteSubway();
-			return;
 		}
-		if (selectStationOption.equals("3")) {
+		else if (selectStationOption.equals("3")) {
 			showSubway();
-			return;
 		}
-		if (selectStationOption.equals("B")) {
-			return;
+		else if (selectStationOption.equals("B")) {
 		}
 	}
 
@@ -50,17 +46,28 @@ public class SubwayController {
 		String selectLineOption = InputView.selectWantedFunction();
 		if (selectLineOption.equals("1")) {
 			saveLine();
-			return;
 		}
-		if (selectLineOption.equals("2")) {
+		else if (selectLineOption.equals("2")) {
 			deleteLine();
-			return;
 		}
-		if (selectLineOption.equals("3")) {
+		else if (selectLineOption.equals("3")) {
 			showLine();
+		}
+		else if (selectLineOption.equals("B")) {
 			return;
 		}
-		if (selectLineOption.equals("B")) {
+	}
+
+	public void playSectionFunction() {
+		OutputView.showSectionFunctionList();
+		String selectSectionOption = InputView.selectWantedFunction();
+		if (selectSectionOption.equals("1")) {
+			registerSection();
+		}
+		else if (selectSectionOption.equals("2")) {
+			deleteSection();
+		}
+		else if (selectSectionOption.equals("B")) {
 			return;
 		}
 	}
@@ -118,22 +125,18 @@ public class SubwayController {
 		OutputView.showStationList(LineRepository.castingLinesToString());
 	}
 
-	public void playSectionFunction() {
-		OutputView.showSectionFunctionList();
-		String selectSectionOption = InputView.selectWantedFunction();
-		if (selectSectionOption.equals("1")) {
-			Line line = LineRepository.findLine(InputView.inputLineSavingSection());
-			Station station = StationRepository.findStation(InputView.inputStationSavingSection());
-			line.saveStationOrder(station, Integer.parseInt(InputView.inputStationOrderSavingSection()));
-			return;
-		}
-		if (selectSectionOption.equals("2")) {
-			deleteLine();
-			return;
-		}
-		if (selectSectionOption.equals("B")) {
-			return;
-		}
 
+	private void registerSection() {
+		Line line = LineRepository.findLine(InputView.inputLineSavingSection());
+		Station station = StationRepository.findStation(InputView.inputStationSavingSection());
+		line.saveStationOrder(station, Integer.parseInt(InputView.inputStationOrderSavingSection()));
+		OutputView.showSectionSaveComplete();
+	}
+
+	private void deleteSection() {
+		Line line = LineRepository.findLine(InputView.inputLineOfSectionToDelete());
+		Station station = line.findStation(InputView.inputStationOfSectionToDelete());
+		line.deleteStationOrder(station);
+		OutputView.showSectionDeleteComplete();
 	}
 }
