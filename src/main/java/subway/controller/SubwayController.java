@@ -123,7 +123,8 @@ public class SubwayController {
 		String selectSectionOption = InputView.selectWantedFunction();
 		if (selectSectionOption.equals("1")) {
 			Line line = LineRepository.findLine(InputView.inputLineSavingSection());
-			InputView.inputLineSavingSection();
+			Station station = StationRepository.findStation(InputView.inputStationSavingSection());
+			line.saveStationOrder(station, Integer.parseInt(InputView.inputStationOrderSavingSection()));
 			return;
 		}
 		if (selectSectionOption.equals("2")) {

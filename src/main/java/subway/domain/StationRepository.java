@@ -7,6 +7,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class StationRepository {
+    private static final String NOT_EXIST_STATION_NAME_ERROR_MESSAGE = "입력하신 역이 존재하지 않습니다.";
+
     private static final List<Station> stations = new ArrayList<>();
 
     public static List<Station> stations() {
@@ -29,5 +31,12 @@ public class StationRepository {
 
     public static int getStationListSize() {
         return stations.size();
+    }
+
+    public static Station findStation(String stationName) {
+        return stations.stream()
+            .filter(station -> station.getName().equals(stationName))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(NOT_EXIST_STATION_NAME_ERROR_MESSAGE));
     }
 }
