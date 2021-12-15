@@ -9,9 +9,6 @@ import subway.view.InputView;
 import subway.view.OutputView;
 
 public class SubwayController {
-	private StationRepository stationRepository;
-	private LineRepository lineRepository;
-
 	public void play() {
 		OutputView.showMainFunctionList();
 		String mainOption = InputView.selectWantedFunction();
@@ -21,6 +18,9 @@ public class SubwayController {
 			}
 			if (mainOption.equals("2")) {
 				playLineFunction();
+			}
+			if (mainOption.equals("3")) {
+				playSectionFunction();
 			}
 		}
 	}
@@ -57,7 +57,7 @@ public class SubwayController {
 			return;
 		}
 		if (selectLineOption.equals("3")) {
-			showSubway();
+			showLine();
 			return;
 		}
 		if (selectLineOption.equals("B")) {
@@ -112,5 +112,27 @@ public class SubwayController {
 		if (isDelete) {
 			OutputView.showLineDeleteComplete();
 		}
+	}
+
+	public void showLine() {
+		OutputView.showStationList(LineRepository.castingLinesToString());
+	}
+
+	public void playSectionFunction() {
+		OutputView.showSectionFunctionList();
+		String selectSectionOption = InputView.selectWantedFunction();
+		if (selectSectionOption.equals("1")) {
+			Line line = LineRepository.findLine(InputView.inputLineSavingSection());
+			InputView.inputLineSavingSection();
+			return;
+		}
+		if (selectSectionOption.equals("2")) {
+			deleteLine();
+			return;
+		}
+		if (selectSectionOption.equals("B")) {
+			return;
+		}
+
 	}
 }

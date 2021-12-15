@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Objects;
+import java.util.stream.Collectors;
 
 public class LineRepository {
+    private static final String NOT_EXIST_LINE_NAME_ERROR_MESSAGE = "입력하신 노선이 존재하지 않습니다.";
+
     private static final List<Line> lines = new ArrayList<>();
 
     public static List<Line> lines() {
@@ -22,5 +25,18 @@ public class LineRepository {
 
     public static int getLineListSize() {
         return lines.size();
+    }
+
+    public static List<String> castingLinesToString() {
+        return lines.stream()
+            .map(line -> line.getName())
+            .collect(Collectors.toList());
+    }
+
+    public static Line findLine(String lineName) {
+        return lines().stream()
+            .filter(line -> line.getName().equals(lineName))
+            .findFirst()
+            .orElseThrow(() -> new IllegalArgumentException(NOT_EXIST_LINE_NAME_ERROR_MESSAGE));
     }
 }
