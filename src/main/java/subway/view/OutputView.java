@@ -9,10 +9,12 @@ public class OutputView {
 	private static final String STATION_SAVE_COMPLETE_MESSAGE = INFORMATION_ALARM_MESSAGE + "지하철 역이 등록되었습니다.";
 	private static final String STATION_DELETE_COMPLETE_MESSAGE = INFORMATION_ALARM_MESSAGE + "지하철 역이 삭제되었습니다.";
 	private static final String STATION_LIST_MESSAGE = "## 역 목록";
+	private static final String LINE_FUNCTION_LIST = "## 노선 관리 화면\n1. 노선 등록\n2. 노선 삭제\n3. 노선 조회\nB. 돌아가기\n";
+	private static final String LINE_SAVE_COMPLETE_MESSAGE = INFORMATION_ALARM_MESSAGE + "지하철 노선이 등록되었습니다.";
+	private static final String LINE_DELETE_COMPLETE_MESSAGE = INFORMATION_ALARM_MESSAGE + "지하철 노선이 삭제되었습니다.";
 
 	public static void showMainFunctionList() {
 		System.out.println(MAIN_SCREEN_FUNCTION_LIST);
-
 	}
 
 	public static void showStationFunctionList() {
@@ -35,5 +37,20 @@ public class OutputView {
 		System.out.println(STATION_LIST_MESSAGE);
 		stationsName.stream()
 			.forEach(station -> System.out.println(INFORMATION_ALARM_MESSAGE + station));
+	}
+
+	public static void showLineFunctionList() {
+		System.out.println();
+		System.out.println(LINE_FUNCTION_LIST);
+	}
+
+	public static void showLineSaveComplete() {
+		System.out.println();
+		System.out.println(LINE_SAVE_COMPLETE_MESSAGE);
+	}
+
+	public static void showLineDeleteComplete() {
+		System.out.println();
+		System.out.println(LINE_DELETE_COMPLETE_MESSAGE);
 	}
 }
