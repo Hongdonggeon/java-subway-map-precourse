@@ -10,6 +10,9 @@ public class InputView {
 	public static final String LINE_UP_TERMINAL_ALARM_MESSAGE = "## 등록할 노선의 상행 종점역 이름을 입력하세요";
 	public static final String LINE_DOWN_TERMINAL_ALARM_MESSAGE = "## 등록할 노선의 하행 종점역 이름을 입력하세요";
 	public static final String LINE_DELETE_ALARM_MESSAGE = "## 삭제할 노선 이름을 입력하세요";
+	public static final String LINE_SAVING_SECTION_ALARM_MESSAGE = "## 노선을 입력하세요.";
+	public static final String STATION_SAVING_SECTION_ALARM_MESSAGE = "## 역이름을 입력하세요.";
+	public static final String STATION_ORDER_SAVING_SECTION_ALARM_MESSAGE = "## 순서를 입력하세요.";
 
 	private static Scanner scanner = new Scanner(System.in);
 
@@ -54,6 +57,24 @@ public class InputView {
 	public static String inputLineToDelete() {
 		System.out.println();
 		System.out.println(LINE_DELETE_ALARM_MESSAGE);
+		return inputString();
+	}
+
+	public static String inputLineSavingSection() {
+		System.out.println();
+		System.out.println(LINE_SAVING_SECTION_ALARM_MESSAGE);
+		return inputString();
+	}
+
+	public static String inputStationSavingSection() {
+		System.out.println();
+		System.out.println(STATION_SAVING_SECTION_ALARM_MESSAGE);
+		return inputString();
+	}
+
+	public static String inputStationOrderSavingSection() {
+		System.out.println();
+		System.out.println(STATION_ORDER_SAVING_SECTION_ALARM_MESSAGE);
 		return inputString();
 	}
 
