@@ -26,4 +26,8 @@ public class StationRepository {
             .map(station -> station.getName())
             .collect(Collectors.toList());
     }
+
+    public static int getStationListSize() {
+        return stations.size();
+    }
 }
