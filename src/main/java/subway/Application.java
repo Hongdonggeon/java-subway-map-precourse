@@ -12,7 +12,7 @@ public class Application {
 
     public static void main(String[] args) {
         final Scanner scanner = new Scanner(System.in);
-        SubwayController controller = new SubwayController(scanner);
+        SubwayController controller = new SubwayController();
         controller.play();
     }
     }
