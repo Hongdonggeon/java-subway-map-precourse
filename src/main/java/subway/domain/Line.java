@@ -1,7 +1,9 @@
 package subway.domain;
 
 import java.util.ArrayList;
+import java.util.LinkedList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class Line {
     private static final String STATION_NAME_LENGTH_ERROR_MESSAGE = "[ERROR] 이름은 최소 두글자 이상이여야 한다.";
@@ -9,11 +11,17 @@ public class Line {
 
     private String name;
     private EndTerminal endTerminal;
-    private List<Station> stations = new ArrayList<>();
+    private LinkedList<Station> stations = new LinkedList<>();
 
     public Line(String name) {
         validateNameLength(name);
         this.name = name;
+    }
+
+    public List<String> getStationNames() {
+        return stations.stream()
+            .map(station -> station.getName())
+            .collect(Collectors.toList());
     }
 
     public String getName() {
@@ -21,12 +29,17 @@ public class Line {
     }
 
     // 추가 기능 구현
-    public void saveEndTerminal(EndTerminal endTerminal) {
-        this.endTerminal = endTerminal;
+    public void saveEndTerminal(String firstStation, String endStation) {
+        stations.addFirst(new Station(firstStation));
+        stations.addLast(new Station(endStation));
     }
 
     public void saveStationOrder(Station station, int order) {
         stations.set(order - 1, station);
+    }
+
+    public void saveStationOrders(List<Station> stations) {
+        this.stations = new LinkedList<>(stations);;
     }
 
     public Station findStation(String stationName) {

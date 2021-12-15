@@ -1,6 +1,8 @@
 package subway.controller;
 
-import subway.domain.EndTerminal;
+import java.util.List;
+
+import subway.InitService;
 import subway.domain.Line;
 import subway.domain.LineRepository;
 import subway.domain.Station;
@@ -10,6 +12,8 @@ import subway.view.OutputView;
 
 public class SubwayController {
 	public void play() {
+		InitService.initStation();
+		InitService.initLine();
 		while (true) {
 			OutputView.showMainFunctionList();
 			String mainOption = InputView.selectWantedFunction();
@@ -21,6 +25,9 @@ public class SubwayController {
 			}
 			if (mainOption.equals("3")) {
 				playSectionFunction();
+			}
+			if (mainOption.equals("4")) {
+				showSubwayLines();
 			}
 		}
 	}
@@ -72,6 +79,14 @@ public class SubwayController {
 		}
 	}
 
+	public void showSubwayLines() {
+		List<Line> lines = LineRepository.lines();
+		for (Line line : lines) {
+			String lineName = line.getName();
+			OutputView.showSubwayLine(line.getName(), line.getStationNames());
+		}
+	}
+
 	public void saveSubway() {
 		try {
 			int beforeInputSize = StationRepository.getStationListSize();
@@ -101,8 +116,7 @@ public class SubwayController {
 		try {
 			int beforeInputSize = LineRepository.getLineListSize();
 			Line inputLine = new Line(InputView.inputLineToSave());
-			inputLine.saveEndTerminal(
-				new EndTerminal(InputView.inputLineUpTerminalToSave(), InputView.inputLineDownTerminalToSave()));
+			inputLine.saveEndTerminal(InputView.inputLineUpTerminalToSave(), InputView.inputLineDownTerminalToSave());
 			LineRepository.addLine(inputLine);
 			int afterInputSize = LineRepository.getLineListSize();
 			if (beforeInputSize < afterInputSize) {
