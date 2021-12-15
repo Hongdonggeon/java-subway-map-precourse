@@ -1,7 +1,5 @@
 package subway.domain;
 
-import jdk.nashorn.internal.ir.Terminal;
-
 public class Line {
     private static final String STATION_NAME_LENGTH_ERROR_MESSAGE = "[ERROR] 이름은 최소 두글자 이상이여야 한다.";
 

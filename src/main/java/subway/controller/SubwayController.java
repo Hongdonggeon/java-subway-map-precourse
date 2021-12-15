@@ -1,6 +1,5 @@
 package subway.controller;
 
-import jdk.nashorn.internal.ir.Terminal;
 import subway.domain.EndTerminal;
 import subway.domain.Line;
 import subway.domain.LineRepository;
@@ -54,7 +53,7 @@ public class SubwayController {
 			return;
 		}
 		if (selectLineOption.equals("2")) {
-			deleteSubway();
+			deleteLine();
 			return;
 		}
 		if (selectLineOption.equals("3")) {
@@ -105,6 +104,13 @@ public class SubwayController {
 		} catch (IllegalArgumentException exception) {
 			System.out.println(exception.getMessage());
 			saveLine();
+		}
+	}
+
+	public void deleteLine() {
+		boolean isDelete = LineRepository.deleteLineByName(InputView.inputLineToDelete());
+		if (isDelete) {
+			OutputView.showLineDeleteComplete();
 		}
 	}
 }
