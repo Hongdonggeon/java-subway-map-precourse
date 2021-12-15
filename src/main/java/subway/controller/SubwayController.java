@@ -12,17 +12,20 @@ public class SubwayController {
 
 	public void play() {
 		OutputView.showMainFunctionList();
-		String mainOption = InputView.selectMainFunction();
+		String mainOption = InputView.selectWantedFunction();
 		while (true) {
 			if (mainOption.equals("1")) {
 				playStationFunction();
+			}
+			if (mainOption.equals("2")) {
+				playLineFunction();
 			}
 		}
 	}
 
 	public void playStationFunction() {
 		OutputView.showStationFunctionList();
-		String selectStationOption = InputView.selectStationFunction();
+		String selectStationOption = InputView.selectWantedFunction();
 		if (selectStationOption.equals("1")) {
 			saveSubway();
 			return;
@@ -36,6 +39,26 @@ public class SubwayController {
 			return;
 		}
 		if (selectStationOption.equals("B")) {
+			return;
+		}
+	}
+
+	public void playLineFunction() {
+		OutputView.showLineFunctionList();
+		String selectLineOption = InputView.selectWantedFunction();
+		if (selectLineOption.equals("1")) {
+			saveSubway();
+			return;
+		}
+		if (selectLineOption.equals("2")) {
+			deleteSubway();
+			return;
+		}
+		if (selectLineOption.equals("3")) {
+			showSubway();
+			return;
+		}
+		if (selectLineOption.equals("B")) {
 			return;
 		}
 	}
