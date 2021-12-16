@@ -18,6 +18,7 @@ public class OutputView {
 	private static final String LINE_NAME_AND_STATION_NAMES_PARSING_HYPHON = "---";
 
 	public static void showMainFunctionList() {
+		System.out.println();
 		System.out.println(MAIN_SCREEN_FUNCTION_LIST);
 	}
 

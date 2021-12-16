@@ -38,8 +38,9 @@ public class Line {
     }
 
     public void saveStationOrder(Station station, int order) {
-        if(order == 1)
+        if (order == 1 || order > stations.size()) {
             throw new IllegalArgumentException(END_STATION_CHANGE_ERROR_MESSAGE);
+        }
         List<Station> newStation = Arrays.asList(station);
         stations.addAll(order - 1, newStation);
     }

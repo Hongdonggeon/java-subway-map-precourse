@@ -1,85 +1,47 @@
 package subway.controller;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import subway.InitService;
 import subway.domain.Line;
 import subway.domain.LineRepository;
-import subway.domain.Station;
-import subway.domain.StationRepository;
+import subway.menuOption.MainMenuOption;
+import subway.menuOption.matchedFunction;
 import subway.view.InputView;
 import subway.view.OutputView;
 
 public class SubwayController {
-	public void play() {
+	private static Map<MainMenuOption, matchedFunction> mainFunction;
+
+	static {
+		mainFunction = new HashMap<>();
+		mainFunction.put(MainMenuOption.STATION, StationController::run);
+		mainFunction.put(MainMenuOption.LINE, LineController::run);
+		mainFunction.put(MainMenuOption.SECTION, SectionController::run);
+		mainFunction.put(MainMenuOption.PRINT, SubwayController::showSubwayLines);
+		mainFunction.put(MainMenuOption.ESCAPE, () -> {});
 		InitService.initStation();
 		InitService.initLine();
+	}
+
+	public void play() {
 		while (true) {
 			OutputView.showMainFunctionList();
-			String mainOption = InputView.selectWantedFunction();
-			if (mainOption.equals("1")) {
-				playStationFunction();
-			}
-			if (mainOption.equals("2")) {
-				playLineFunction();
-			}
-			if (mainOption.equals("3")) {
-				playSectionFunction();
-			}
-			if (mainOption.equals("4")) {
-				showSubwayLines();
+			try {
+				MainMenuOption option = MainMenuOption.getOption(InputView.selectWantedFunction());
+				mainFunction.get(option).run();
+				if (option == MainMenuOption.ESCAPE) {
+					break;
+				}
+			} catch (IllegalArgumentException exception) {
+				System.out.println(exception.getMessage());
 			}
 		}
 	}
 
-	public void playStationFunction() {
-		OutputView.showStationFunctionList();
-		String selectStationOption = InputView.selectWantedFunction();
-		if (selectStationOption.equals("1")) {
-			saveSubway();
-		}
-		else if (selectStationOption.equals("2")) {
-			deleteSubway();
-		}
-		else if (selectStationOption.equals("3")) {
-			showSubway();
-		}
-		else if (selectStationOption.equals("B")) {
-		}
-	}
-
-	public void playLineFunction() {
-		OutputView.showLineFunctionList();
-		String selectLineOption = InputView.selectWantedFunction();
-		if (selectLineOption.equals("1")) {
-			saveLine();
-		}
-		else if (selectLineOption.equals("2")) {
-			deleteLine();
-		}
-		else if (selectLineOption.equals("3")) {
-			showLine();
-		}
-		else if (selectLineOption.equals("B")) {
-			return;
-		}
-	}
-
-	public void playSectionFunction() {
-		OutputView.showSectionFunctionList();
-		String selectSectionOption = InputView.selectWantedFunction();
-		if (selectSectionOption.equals("1")) {
-			registerSection();
-		}
-		else if (selectSectionOption.equals("2")) {
-			deleteSection();
-		}
-		else if (selectSectionOption.equals("B")) {
-			return;
-		}
-	}
-
-	public void showSubwayLines() {
+	public static void showSubwayLines() {
 		List<Line> lines = LineRepository.lines();
 		for (Line line : lines) {
 			String lineName = line.getName();
@@ -87,80 +49,4 @@ public class SubwayController {
 		}
 	}
 
-	public void saveSubway() {
-		try {
-			int beforeInputSize = StationRepository.getStationListSize();
-			StationRepository.addStation(new Station(InputView.inputStationToSave()));
-			int afterInputSize = StationRepository.getStationListSize();
-			if (beforeInputSize < afterInputSize) {
-				OutputView.showStationSaveComplete();
-			}
-		} catch (IllegalArgumentException exception) {
-			System.out.println(exception.getMessage());
-			saveSubway();
-		}
-	}
-
-	public void deleteSubway() {
-		boolean isDelete = StationRepository.deleteStation(InputView.inputStationToDelete());
-		if (isDelete) {
-			OutputView.showStationDeleteComplete();
-		}
-	}
-
-	public void showSubway() {
-		OutputView.showStationList(StationRepository.castingStationsToString());
-	}
-
-	public void saveLine() {
-		try {
-			int beforeInputSize = LineRepository.getLineListSize();
-			Line inputLine = new Line(InputView.inputLineToSave());
-			inputLine.saveEndTerminal(StationRepository.findStation(InputView.inputLineUpTerminalToSave()), StationRepository.findStation(InputView.inputLineDownTerminalToSave()));
-			LineRepository.addLine(inputLine);
-			int afterInputSize = LineRepository.getLineListSize();
-			if (beforeInputSize < afterInputSize) {
-				OutputView.showLineSaveComplete();
-			}
-		} catch (IllegalArgumentException exception) {
-			System.out.println(exception.getMessage());
-			saveLine();
-		}
-	}
-
-	public void deleteLine() {
-		boolean isDelete = LineRepository.deleteLineByName(InputView.inputLineToDelete());
-		if (isDelete) {
-			OutputView.showLineDeleteComplete();
-		}
-	}
-
-	public void showLine() {
-		OutputView.showStationList(LineRepository.castingLinesToString());
-	}
-
-
-	private void registerSection() {
-		try {
-			Line line = LineRepository.findLine(InputView.inputLineSavingSection());
-			Station station = StationRepository.findStation(InputView.inputStationSavingSection());
-			line.saveStationOrder(station, Integer.parseInt(InputView.inputStationOrderSavingSection()));
-			OutputView.showSectionSaveComplete();
-		} catch (IllegalArgumentException exception) {
-			System.out.println(exception.getMessage());
-			registerSection();
-		}
-	}
-
-	private void deleteSection() {
-		try {
-			Line line = LineRepository.findLine(InputView.inputLineOfSectionToDelete());
-			Station station = line.findStationInLine(InputView.inputStationOfSectionToDelete());
-			line.deleteStationOrder(station);
-			OutputView.showSectionDeleteComplete();
-		} catch (IllegalArgumentException exception) {
-			System.out.println(exception.getMessage());
-			deleteSection();
-		}
-	}
 }

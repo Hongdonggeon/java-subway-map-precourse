@@ -22,6 +22,7 @@ public class InputView {
 		return scanner.next();
 	}
 	public static String selectWantedFunction() {
+		System.out.println();
 		System.out.println(USER_CHOISE_FUNCTION_ALARM_MESSAGE);
 		return inputString();
 	}
