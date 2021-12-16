@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class LineRepository {
-    private static final String NOT_EXIST_LINE_NAME_ERROR_MESSAGE = "입력하신 노선이 존재하지 않습니다.";
-    private static final String DUPLICATED_LINE_ERROR_MESSAGE = "중복된 노선을 저장할 수 없습니다.";
+    private static final String NOT_EXIST_LINE_NAME_ERROR_MESSAGE = "[ERROR] 입력하신 노선이 존재하지 않습니다.";
+    private static final String DUPLICATED_LINE_ERROR_MESSAGE = "[ERROR] 중복된 노선을 저장할 수 없습니다.";
 
     private static final List<Line> lines = new ArrayList<>();
 

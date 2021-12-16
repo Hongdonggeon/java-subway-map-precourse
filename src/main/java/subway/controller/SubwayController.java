@@ -141,16 +141,26 @@ public class SubwayController {
 
 
 	private void registerSection() {
-		Line line = LineRepository.findLine(InputView.inputLineSavingSection());
-		Station station = StationRepository.findStation(InputView.inputStationSavingSection());
-		line.saveStationOrder(station, Integer.parseInt(InputView.inputStationOrderSavingSection()));
-		OutputView.showSectionSaveComplete();
+		try {
+			Line line = LineRepository.findLine(InputView.inputLineSavingSection());
+			Station station = StationRepository.findStation(InputView.inputStationSavingSection());
+			line.saveStationOrder(station, Integer.parseInt(InputView.inputStationOrderSavingSection()));
+			OutputView.showSectionSaveComplete();
+		} catch (IllegalArgumentException exception) {
+			System.out.println(exception.getMessage());
+			registerSection();
+		}
 	}
 
 	private void deleteSection() {
-		Line line = LineRepository.findLine(InputView.inputLineOfSectionToDelete());
-		Station station = line.findStationInLine(InputView.inputStationOfSectionToDelete());
-		line.deleteStationOrder(station);
-		OutputView.showSectionDeleteComplete();
+		try {
+			Line line = LineRepository.findLine(InputView.inputLineOfSectionToDelete());
+			Station station = line.findStationInLine(InputView.inputStationOfSectionToDelete());
+			line.deleteStationOrder(station);
+			OutputView.showSectionDeleteComplete();
+		} catch (IllegalArgumentException exception) {
+			System.out.println(exception.getMessage());
+			deleteSection();
+		}
 	}
 }

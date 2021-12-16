@@ -7,8 +7,8 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class StationRepository {
-    private static final String NOT_EXIST_STATION_NAME_ERROR_MESSAGE = "입력하신 역이 존재하지 않습니다.";
-    private static final String DUPLICATED_STATION_ERROR_MESSAGE = "중복된 노선을 저장할 수 없습니다.";
+    private static final String NOT_EXIST_STATION_NAME_ERROR_MESSAGE = "[ERROR] 입력하신 역이 존재하지 않습니다.";
+    private static final String DUPLICATED_STATION_ERROR_MESSAGE = "[ERROR] 중복된 역을 저장할 수 없습니다.";
 
     private static final List<Station> stations = new ArrayList<>();
 
@@ -17,6 +17,7 @@ public class StationRepository {
     }
 
     public static void addStation(Station station) {
+        validateDuplicatedStation(station);
         stations.add(station);
     }
 
@@ -47,6 +48,6 @@ public class StationRepository {
 
     public static void validateDuplicatedStation(Station addStation) {
         if(isContainStation(addStation))
-            throw new IllegalArgumentException("중복된 노선을 저장할 수 없습니다.");
+            throw new IllegalArgumentException(DUPLICATED_STATION_ERROR_MESSAGE);
     }
 }

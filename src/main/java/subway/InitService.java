@@ -1,5 +1,6 @@
 package subway;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,16 +34,13 @@ public class InitService {
 		initLines.stream()
 			.forEach(lineName -> LineRepository.addLine(new Line(lineName)));
 		LineRepository.findLine(line1)
-			.saveStationOrders(
-				Arrays.asList(StationRepository.findStation(station1), StationRepository.findStation(station2),
-					StationRepository.findStation(station3)));
+			.saveStationOrders(new ArrayList<>(Arrays.asList(StationRepository.findStation(station1), StationRepository.findStation(station2),
+				StationRepository.findStation(station3))));
 		LineRepository.findLine(line2)
-			.saveStationOrders(
-				Arrays.asList(StationRepository.findStation(station1), StationRepository.findStation(station4),
-					StationRepository.findStation(station5), StationRepository.findStation(station7)));
+			.saveStationOrders(new ArrayList<>(Arrays.asList(StationRepository.findStation(station1), StationRepository.findStation(station4),
+				StationRepository.findStation(station5), StationRepository.findStation(station7))));
 		LineRepository.findLine(line3)
-			.saveStationOrders(
-				Arrays.asList(StationRepository.findStation(station2), StationRepository.findStation(station5),
-					StationRepository.findStation(station6)));
+			.saveStationOrders(new ArrayList<>(Arrays.asList(StationRepository.findStation(station2), StationRepository.findStation(station5),
+				StationRepository.findStation(station6))));
 	}
 }
