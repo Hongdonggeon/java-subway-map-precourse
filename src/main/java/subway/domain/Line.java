@@ -1,8 +1,8 @@
 package subway.domain;
 
-import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Line {
@@ -29,9 +29,9 @@ public class Line {
     }
 
     // 추가 기능 구현
-    public void saveEndTerminal(String firstStation, String endStation) {
-        stations.addFirst(new Station(firstStation));
-        stations.addLast(new Station(endStation));
+    public void saveEndTerminal(Station firstStation, Station endStation) {
+        stations.addFirst(firstStation);
+        stations.addLast(endStation);
     }
 
     public void saveStationOrder(Station station, int order) {
@@ -42,7 +42,7 @@ public class Line {
         this.stations = new LinkedList<>(stations);;
     }
 
-    public Station findStation(String stationName) {
+    public Station findStationInLine(String stationName) {
         return stations.stream()
             .filter(station -> station.getName().equals(stationName))
             .findFirst()
@@ -57,5 +57,20 @@ public class Line {
         if (name.length() < 2) {
             throw new IllegalArgumentException(STATION_NAME_LENGTH_ERROR_MESSAGE);
         }
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o)
+            return true;
+        if (o == null || getClass() != o.getClass())
+            return false;
+        Line line = (Line)o;
+        return Objects.equals(name, line.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name);
     }
 }

@@ -8,6 +8,7 @@ import java.util.stream.Collectors;
 
 public class LineRepository {
     private static final String NOT_EXIST_LINE_NAME_ERROR_MESSAGE = "입력하신 노선이 존재하지 않습니다.";
+    private static final String DUPLICATED_LINE_ERROR_MESSAGE = "중복된 노선을 저장할 수 없습니다.";
 
     private static final List<Line> lines = new ArrayList<>();
 
@@ -16,6 +17,7 @@ public class LineRepository {
     }
 
     public static void addLine(Line line) {
+        validateDuplicatedLine(line);
         lines.add(line);
     }
 
@@ -38,5 +40,14 @@ public class LineRepository {
             .filter(line -> line.getName().equals(lineName))
             .findFirst()
             .orElseThrow(() -> new IllegalArgumentException(NOT_EXIST_LINE_NAME_ERROR_MESSAGE));
+    }
+
+    public static boolean isContainLine(Line line) {
+        return lines.contains(line);
+    }
+
+    public static void validateDuplicatedLine(Line line) {
+        if(isContainLine(line))
+            throw new IllegalArgumentException(DUPLICATED_LINE_ERROR_MESSAGE);
     }
 }

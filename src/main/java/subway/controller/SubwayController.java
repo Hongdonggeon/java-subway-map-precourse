@@ -116,7 +116,7 @@ public class SubwayController {
 		try {
 			int beforeInputSize = LineRepository.getLineListSize();
 			Line inputLine = new Line(InputView.inputLineToSave());
-			inputLine.saveEndTerminal(InputView.inputLineUpTerminalToSave(), InputView.inputLineDownTerminalToSave());
+			inputLine.saveEndTerminal(StationRepository.findStation(InputView.inputLineUpTerminalToSave()), StationRepository.findStation(InputView.inputLineDownTerminalToSave()));
 			LineRepository.addLine(inputLine);
 			int afterInputSize = LineRepository.getLineListSize();
 			if (beforeInputSize < afterInputSize) {
@@ -149,7 +149,7 @@ public class SubwayController {
 
 	private void deleteSection() {
 		Line line = LineRepository.findLine(InputView.inputLineOfSectionToDelete());
-		Station station = line.findStation(InputView.inputStationOfSectionToDelete());
+		Station station = line.findStationInLine(InputView.inputStationOfSectionToDelete());
 		line.deleteStationOrder(station);
 		OutputView.showSectionDeleteComplete();
 	}
